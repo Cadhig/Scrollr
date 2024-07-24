@@ -1,14 +1,8 @@
+const { Model, DataTypes } = require('sequelize');
+const sequelize = require('../config/connection');
 const bcrypt = require('bcrypt');
 
 class Users extends Model {
-}
-
-interface UserProps {
-    username: String,
-    password: String,
-    bio?: String,
-    birthday?: String,
-    location?: String
 }
 
 Users.init(
@@ -46,7 +40,7 @@ Users.init(
     },
     {
         hooks: {
-            beforeCreate: async (newUserData: UserProps) => {
+            beforeCreate: async (newUserData) => {
                 newUserData.password = await bcrypt.hash(newUserData.password, 10); // Salt rounds = 10
                 return newUserData;
             },
